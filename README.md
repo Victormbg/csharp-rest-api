@@ -1,6 +1,49 @@
 # C# REST API Template (.NET 8 + SQLite)
 
-Template mínimo e profissional para desenvolvimento de APIs REST em C# utilizando GitHub Codespaces, Entity Framework Core e SQLite.
+Um template mínimo e profissional de API REST em C# construído com .NET 8, Entity Framework Core e SQLite, pré-configurado para desenvolvimento instantâneo no GitHub Codespaces e VS Code.
+
+Este projeto implementa uma **Arquitetura em Camadas (N-Layer)** limpa, separando o tratamento HTTP, filtros de validação, lógica de negócios, modelos de domínio e acesso ao banco de dados.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+* **.NET 8 (LTS):** Framework robusto para desenvolvimento backend de alta performance.
+* **ASP.NET Core Web API:** Estrutura para construção de serviços REST baseados em Controllers.
+* **Entity Framework Core 8:** ORM para mapeamento e manipulação do banco de dados relacional.
+* **SQLite:** Banco de dados relacional leve embutido diretamente na aplicação em arquivo local (`Data/banco.db`).
+* **GitHub Codespaces & DevContainers:** Ambiente de desenvolvimento totalmente automatizado em nuvem via VS Code.
+
+---
+
+## 📂 Estrutura do Projeto
+
+A arquitetura do projeto segue o padrão **N-Layer** para separação clara de responsabilidades:
+
+```text
+.
+├── .devcontainer/        # Configurações de automação do GitHub Codespaces e VS Code
+│   ├── devcontainer.json # Instalação do SDK, extensões e pacotes do container
+│   └── settings.json     # Ajustes do VS Code (C# Dev Kit e oculta pastas bin/obj)
+├── Controllers/          # Camada de Apresentação (Recebe requisições HTTP e retorna respostas)
+│   └── ProdutosController.cs
+├── Filters/              # Middlewares e Filtros de validação pré-execução
+│   └── ValidacaoProdutoFilter.cs
+├── Services/             # Camada de Negócio (Lógica da aplicação e chamadas do EF Core)
+│   └── ProdutoService.cs
+├── Models/               # Camada de Domínio (Entidades da aplicação)
+│   └── Produto.cs
+├── Data/                 # Camada de Acesso a Dados e Infraestrutura
+│   ├── AppDbContext.cs   # Contexto do Entity Framework Core
+│   ├── DatabaseConfig.cs # Métodos de extensão para inicialização e conexão do SQLite
+│   └── banco.db          # Arquivo físico do banco SQLite
+├── appsettings.json      # Configurações de ambiente e Connection Strings
+├── Program.cs            # Ponto de entrada (Bootstrapper e Injeção de Dependências)
+├── csharp-rest-api.csproj # Configurações do projeto .NET e pacotes NuGet
+└── .gitignore            # Regras para ignorar arquivos de compilação e banco local
+```
+
+---
 
 ## 🚀 Como Executar o Projeto
 
