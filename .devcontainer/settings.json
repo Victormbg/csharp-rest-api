@@ -1,0 +1,19 @@
+{
+  "dotnet.defaultSolution": "csharp-rest-api.csproj",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
+  "csharp.inlayHints.parameters.enabled": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/bin": true,
+    "**/obj": true
+  }
+}

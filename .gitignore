@@ -1,0 +1,29 @@
+# Diretórios de compilação do .NET (Oculta os arquivos binários gerados)
+**/bin/
+**/obj/
+
+# Banco de dados local SQLite e arquivos temporários do SQLite
+Data/banco.db
+Data/banco.db-shm
+Data/banco.db-wal
+*.db
+*.sqlite
+*.db-journal
+
+# Logs da aplicação (Serilog, etc.)
+**/Logs/
+*.log
+
+# Arquivos de usuário e configurações locais do VS Code / IDEs
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.user
+*.userosscache
+*.sln.docstates
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
