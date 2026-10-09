@@ -3,6 +3,7 @@
 Um template mínimo e profissional de API REST em C# construído com .NET 8, Entity Framework Core e SQLite, pré-configurado para desenvolvimento instantâneo no GitHub Codespaces e VS Code.
 
 Este projeto implementa uma **Arquitetura em Camadas (N-Layer)** limpa, separando o tratamento HTTP, autenticação OAuth2 / JWT, filtros de validação, tratamento global de erros, lógica de negócios, modelos de domínio e acesso ao banco de dados.
+
 ---
 
 ## 🛠️ Tecnologias Utilizadas
