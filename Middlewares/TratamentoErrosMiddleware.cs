@@ -17,6 +17,16 @@ public class TratamentoErrosMiddleware
         try
         {
             await _next(context);
+
+            // Captura quando o pipeline do ASP.NET (JWT/Authorize) define o StatusCode 401 ou 403 sem lançar Exceção C#
+            if (context.Response.StatusCode == (int)HttpStatusCode.Unauthorized && !context.Response.HasStarted)
+            {
+                await TratarErroAsync(context, HttpStatusCode.Unauthorized, "Acesso não autorizado. Token ausente ou inválido.");
+            }
+            else if (context.Response.StatusCode == (int)HttpStatusCode.Forbidden && !context.Response.HasStarted)
+            {
+                await TratarErroAsync(context, HttpStatusCode.Forbidden, "Acesso negado.");
+            }
         }
         catch (KeyNotFoundException ex)
         {
@@ -25,8 +35,13 @@ public class TratamentoErrosMiddleware
         }
         catch (BadHttpRequestException ex)
         {
-            // Erro 400 (Validação do Filter recusada)
+            // Erro 400 (Validação de Filter / x-api-key recusada)
             await TratarErroAsync(context, HttpStatusCode.BadRequest, ex.Message);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            // Erro 401 (Lançado explicitamente pelo código)
+            await TratarErroAsync(context, HttpStatusCode.Unauthorized, ex.Message);
         }
         catch (Exception)
         {

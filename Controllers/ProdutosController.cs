@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using csharp_rest_api.Filters;
 using csharp_rest_api.Models;
@@ -6,6 +7,8 @@ using csharp_rest_api.Services;
 namespace csharp_rest_api.Controllers;
 
 [ApiController]
+[Authorize] // Exige Token JWT válido no Header Authorization: Bearer <token>
+[TypeFilter(typeof(ApiKeyFilter))] // Exige o Header x-api-key
 [Route("api/[controller]")]
 public class ProdutosController : ControllerBase
 {
@@ -20,7 +23,7 @@ public class ProdutosController : ControllerBase
     public async Task<IActionResult> ObterTodos()
     {
         var produtos = await _produtoService.ObterTodosAsync();
-        return Ok(produtos);
+        return Ok(new { status = "sucesso", total = produtos.Count, dados = produtos });
     }
 
     [HttpGet("{id}")]
