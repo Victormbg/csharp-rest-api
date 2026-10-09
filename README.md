@@ -6,6 +6,18 @@ Este projeto implementa uma **Arquitetura em Camadas (N-Layer)** limpa, separand
 
 ---
 
+## 🎯 Destaques do Projeto
+
+- 🛡️ **Segurança em Camadas (Double Header Validation):** Exige autenticação combinada via `Bearer Token` e Header `x-api-key` para acesso aos endpoints de negócio.
+- 🔑 **Padrão OAuth 2.0 & JWT:** Rota `/token` nativa no padrão `client_credentials` com assinatura de chave simétrica HMAC-SHA256 e expiração temporizada.
+- 🧱 **Arquitetura Limpa em Camadas (N-Layer):** Separação estrita de responsabilidades entre `Controllers`, `Filters`, `Middlewares`, `Services`, `Models` e `Data`.
+- ⚠️ **Tratamento Global de Exceções:** Pipeline interceptora via `TratamentoErrosMiddleware` para captura centralizada de erros HTTP (`400`, `401`, `404`, `500`).
+- 📋 **Validação Declarativa por Filtros:** Regras de negócio de payload aplicadas via `ValidacaoProdutoFilter` e `ApiKeyFilter` antes da execução da Controller.
+- 🗄️ **ORM & Persistência Relacional:** Manipulação otimizada e mapeamento de banco de dados SQLite via Entity Framework Core 8 com consultas `AsNoTracking`.
+- 🐳 **Containerização Instantânea:** DevContainer totalmente pré-configurado com SDK .NET 8 e CLI do SQLite para execução imediata no GitHub Codespaces.
+
+---
+
 ## 🛠️ Tecnologias Utilizadas
 
 - **.NET 8 (LTS):** Framework robusto para desenvolvimento backend de alta performance.
@@ -47,6 +59,25 @@ A arquitetura do projeto segue o padrão **N-Layer** para separação clara de r
 ├── csharp-rest-api.csproj # Configurações do projeto .NET e pacotes NuGet
 └── .gitignore            # Regras para ignorar arquivos de compilação e banco local
 ```
+
+---
+
+## 📸 Evidências do Sistema
+
+| Evidência 1 | Evidência 2 |
+| :---: | :---: |
+| ![Geração do Token OAuth2](docs/assets/image-1.png) | ![Listagem de Produtos Protegida](docs/assets/image-4.png) |
+| **Geração do Token OAuth 2.0** | **Busca de Produtos Protegida** |
+
+| Evidência 3 | Evidência 4 |
+| :---: | :---: |
+| ![Validação do Filter 400](docs/assets/image-5.png) | ![Tratamento de Erro 404](docs/assets/image-2.png) |
+| **Validação de Payload via Filter** | **Tratamento de Recurso Não Encontrado** |
+
+| Evidência 5 | Evidência 6 |
+| :---: | :---: |
+| ![Erro de Autenticação 401](docs/assets/image.png) | ![Criação de Produto](docs/assets/image-3.png) |
+| **Bloqueio de Acesso não Autorizado** | **Inspeção da Base de Dados SQLite** |
 
 ---
 
