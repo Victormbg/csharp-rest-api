@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using csharp_rest_api.Models;
 
@@ -8,22 +7,29 @@ public class ValidacaoProdutoFilter : IAsyncActionFilter
 {
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        // Intercepta a requisição e procura pelo objeto Produto nos parâmetros do método
         var produto = context.ActionArguments.Values.OfType<Produto>().FirstOrDefault();
 
         if (produto != null)
         {
-            if (string.IsNullOrWhiteSpace(produto.Nome) || produto.Preco <= 0)
+            var erros = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(produto.Nome))
             {
-                context.Result = new BadRequestObjectResult(new 
-                { 
-                    Mensagem = "Validação recusada no Middleware/Filter: Nome e preço válidos são obrigatórios." 
-                });
-                return; // Interrompe o fluxo e não deixa chegar ao Controller/Service
+                erros.Add("O campo 'nome' é obrigatório.");
+            }
+
+            if (produto.Preco <= 0)
+            {
+                erros.Add("O campo 'preco' deve ser maior que zero.");
+            }
+
+            if (erros.Count > 0)
+            {
+                // Junta os erros encontrados em uma única mensagem detalhada
+                throw new BadHttpRequestException(string.Join(" ", erros));
             }
         }
 
-        // Se a validação passou, continua a execução para o Controller e Service
         await next();
     }
 }

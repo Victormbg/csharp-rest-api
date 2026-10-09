@@ -18,10 +18,45 @@ public class ProdutoService
         return await _contexto.Produtos.AsNoTracking().ToListAsync();
     }
 
+    public async Task<Produto> ObterPorIdAsync(string stringId)
+    {
+        if (!Guid.TryParse(stringId, out var guidId))
+        {
+            throw new KeyNotFoundException("Produto não encontrado");
+        }
+
+        var produto = await _contexto.Produtos.AsNoTracking().FirstOrDefaultAsync(p => p.Id == guidId);
+
+        if (produto == null)
+        {
+            throw new KeyNotFoundException("Produto não encontrado");
+        }
+
+        return produto;
+    }
+
     public async Task<Produto> AdicionarAsync(Produto produto)
     {
         await _contexto.Produtos.AddAsync(produto);
         await _contexto.SaveChangesAsync();
         return produto;
+    }
+
+    public async Task DeletarAsync(string stringId)
+    {
+        if (!Guid.TryParse(stringId, out var guidId))
+        {
+            throw new KeyNotFoundException("Produto não encontrado");
+        }
+
+        var produto = await _contexto.Produtos.FindAsync(guidId);
+
+        if (produto == null)
+        {
+            throw new KeyNotFoundException("Produto não encontrado");
+        }
+
+        _contexto.Produtos.Remove(produto);
+        await _contexto.SaveChangesAsync();
     }
 }

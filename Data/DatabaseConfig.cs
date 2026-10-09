@@ -6,13 +6,13 @@ public static class DatabaseConfig
 {
     public static IServiceCollection AddBancoDeDados(this IServiceCollection services, IConfiguration configuration)
     {
-        // Garante que a pasta Data seja criada na raiz do projeto
+        // Garante que a pasta Data existe
         var pastaData = Path.Combine(Directory.GetCurrentDirectory(), "Data");
         Directory.CreateDirectory(pastaData);
 
-        // Define o caminho absoluto exato para o banco de dados SQLite
-        var caminhoBanco = Path.Combine(pastaData, "banco.db");
-        var connectionString = $"Data Source={caminhoBanco}";
+        // Lê a ConnectionString definida no appsettings.json
+        var connectionString = configuration.GetConnectionString("DefaultConnection") 
+            ?? $"Data Source={Path.Combine(pastaData, "banco.db")}";
 
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlite(connectionString));
@@ -25,8 +25,6 @@ public static class DatabaseConfig
         using (var scope = app.ApplicationServices.CreateScope())
         {
             var contexto = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            
-            // Força a criação do arquivo no disco com as tabelas
             contexto.Database.EnsureCreated();
         }
     }

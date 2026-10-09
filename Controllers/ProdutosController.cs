@@ -23,11 +23,25 @@ public class ProdutosController : ControllerBase
         return Ok(produtos);
     }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> ObterPorId(string id)
+    {
+        var produto = await _produtoService.ObterPorIdAsync(id);
+        return Ok(produto);
+    }
+
     [HttpPost]
-    [TypeFilter(typeof(ValidacaoProdutoFilter))] // Executa a validação ANTES de entrar no método
+    [TypeFilter(typeof(ValidacaoProdutoFilter))]
     public async Task<IActionResult> Criar([FromBody] Produto produto)
     {
         var produtoCriado = await _produtoService.AdicionarAsync(produto);
-        return CreatedAtAction(nameof(ObterTodos), new { id = produtoCriado.Id }, produtoCriado);
+        return CreatedAtAction(nameof(ObterPorId), new { id = produtoCriado.Id }, produtoCriado);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Deletar(string id)
+    {
+        await _produtoService.DeletarAsync(id);
+        return NoContent();
     }
 }

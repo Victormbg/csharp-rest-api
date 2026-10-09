@@ -1,16 +1,20 @@
 using csharp_rest_api.Data;
+using csharp_rest_api.Middlewares; // Importante importar a namespace
 using csharp_rest_api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adiciona os serviços da aplicação
+// Configuração dos Serviços
 builder.Services.AddBancoDeDados(builder.Configuration);
 builder.Services.AddScoped<ProdutoService>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Inicializa o banco de dados
+// 1. O Middleware de erro DEVE vir primeiro para capturar exceções de tudo que rodar depois dele
+app.UseMiddleware<TratamentoErrosMiddleware>();
+
+// 2. Inicializa o banco de dados
 app.InicializarBancoDeDados();
 
 app.UseAuthorization();
